@@ -1,9 +1,9 @@
 {
-  "name": "xyd-cli",
+  "name": "xyd-cli-test",
   "version": "1.0.3",
   "description": "",
   "bin": {
-    "cli": "./bin/cli"
+    "xydcli": "./bin/cli"
   },
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "download-git-repo": "^2.0.0",
     "inquirer": "^6.3.1",
     "ora": "^3.4.0",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "user-home": "^2.0.0"
   }
 }

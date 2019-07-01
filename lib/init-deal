@@ -10,11 +10,19 @@ const printJs = require('@darkobits/lolcatjs')['default']
 const ora = require('ora')
 const chalk = require('chalk')
 const clear = require('clear')
+// userHome
+const userHome = require('user-home')
+const os = require('os')
 
 // githu把模板地址
-const simpleTemplate = 'direct:https://github.com/xuyede/vue-simple-template.git'
-const officialTemplate = 'direct:https://github.com/xuyede/vue-official-template.git'
-const reactTemplate = 'direct:https://github.com/xuyede/react-simple-template.git'
+const simpleTemplate = 'direct:https://github.com//xuyede/vue-simple-template/archive/master.zip'
+// const simpleTemplate = 'direct:https://github.com/xuyede/vue-simple-template.git'
+
+const officialTemplate = 'direct:https://github.com/xuyede/vue-official-template/archive/master.zip'
+// const officialTemplate = 'direct:https://github.com/xuyede/vue-official-template.git'
+
+const reactTemplate = 'direct:https://github.com/xuyede/react-simple-template/archive/master.zip'
+// const reactTemplate = 'direct:https://github.com/xuyede/react-simple-template.git'
 
 // output
 const output = [
@@ -30,9 +38,8 @@ const output = [
 const initDeal = (answers, dirname) => {
   const _dirname = dirname
   const _path = process.cwd()
-  const _projectPath = `${_path}\\${_dirname}`
+  const _projectPath = `${_path}/${_dirname}`
   
-  // 下载提醒
   const templateSpinner = ora(chalk.yellow(' ｡O‿O｡ 正在下载模板,请稍等...'))
   const installSpinner = ora(chalk.yellow(' ｡O‿O｡ 正在安装相关依赖,请稍等...'))
 
@@ -55,7 +62,6 @@ const initDeal = (answers, dirname) => {
   download(
     template, 
     _projectPath, 
-    { clone: true },
     (err) => {
       templateSpinner.stop()
       if (err) {
@@ -63,28 +69,43 @@ const initDeal = (answers, dirname) => {
         console.error(`${chalk.yellow('☹下载模板失败 : ')}${chalk.red(err.message.trim())}`)
         process.exit(1)
       } else {
-        // 下载成功, 安装相关依赖
-        installSpinner.start()
-
         // 替换package.json内容
         shell.sed('-i', '{{name}}', _dirname, `${_projectPath}/package.json`)
         shell.sed('-i', '{{author}}', `${userName} <${userEmail}>`, `${_projectPath}/package.json`)
         shell.sed('-i', '{{description}}', description, `${_projectPath}/package.json`)
-
+        
+        const isOs = os.type().includes('Darwin')
+        // 判断MacOS或者Windows系统
         const downloadStr = downloadMethod === 'npm' ? 'npm install' : 'yarn'
-
-        shell.exec(`cd ${_dirname} && ${downloadStr}`, { async: true }, () => {
-          installSpinner.stop()
-          clear()
+        // MacOs系统不进行自动下载依赖
+        if (isOs) {
           console.log(printJs.fromString(output))
           console.log(`
-${chalk.blue('✔下载完成,按照以下提示运行项目:')}
+    ${chalk.blue('✔模版下载完成,按照以下提示操作:')}
+  
+    » cd ${_dirname}
+  
+    » sudo ${downloadStr}
 
-  » cd ${_dirname}
-
-  » ${downloadMethod} run dev
+    » ${downloadMethod} run dev
           `)
-        })
+        } else {
+          // 下载成功, 安装相关依赖
+          installSpinner.start()
+
+          shell.exec(`cd ${_dirname} && ${downloadStr}`, { async: false }, () => {
+            installSpinner.stop()
+            clear()
+            console.log(printJs.fromString(output))
+            console.log(`
+  ${chalk.blue('✔下载完成,按照以下提示运行项目:')}
+  
+    » cd ${_dirname}
+  
+    » ${downloadMethod} run dev
+            `)
+          })
+        }
       }
     }
   )
