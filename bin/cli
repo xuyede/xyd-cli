@@ -1,0 +1,60 @@
+#! /usr/bin/env node
+
+// 命令行核心
+const commander = require('commander')
+// 加点颜色
+const printJs = require('@darkobits/lolcatjs')['default']
+// shell操作
+const shell = require('shelljs')
+// 用户提醒
+const chalk = require('chalk')
+// 处理init命令
+const init = require('./cli-init')
+
+const version = [
+  "                                    ,--.        ",
+  ",--.  ,--.,--.,--.,--. ,--.,---.  ,-|  | ,---.  ",
+  " \\  `'  / |  ||  | \\  '  /| .-. :' .-. || .-. :",
+  " /  /.  \\ '  ''  '  \\   ' \\   --.\\ `-' |\\   --. ",
+  "'--'  '--' `----' .-'  /   `----' `---'  `----' ",
+  "                  `---'                         ",
+  "version: 0.0.1"
+].join('\n')
+
+const binHandler = {
+  init
+}
+
+// 用法
+commander
+  .usage('<command> [options]')
+// 属性
+commander
+  .version(printJs.fromString(version))
+// 命令
+commander
+  .command('init')
+  .description('init a new project')
+  .arguments('<app-name>')
+  .action( (dirname) => {
+    init(dirname)
+  })
+// 兼容输入没有的命令行
+commander
+  .arguments('<cmd> [env]')
+  .action( (cmd, env) => {
+    const handler = binHandler[cmd]
+    if (!handler) {
+      shell.exec('cli --help')
+      console.log(`
+
+Run ${chalk.blue('cli <command> --help')} for detailed usage of given command.
+
+${chalk.red('Unknown command')} ${chalk.yellow(cmd)}.
+      `)
+      process.exit(1)
+    }
+  })
+
+commander
+  .parse(process.argv)
