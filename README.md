@@ -15,7 +15,14 @@
 2. `yarn`
 
 ---
+关于安装依赖
+
+> MacOS系统不支持自动安装依赖, 需要手动安装
+>
+> Windows系统支持自动安装依赖
+
+---
 
 使用方式
 
-> `cli init app-name`
+> `xydcli init app-name`
