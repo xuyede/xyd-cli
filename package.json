@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "",
   "bin": {
-    "xydcli": "./bin/cli"
+    "xydcli": "./bin/xyd-cli"
   },
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "chalk": "^2.4.2",
     "clear": "^0.1.0",
     "commander": "^2.20.0",
+    "common-bin": "^2.8.1",
     "download-git-repo": "^2.0.0",
     "inquirer": "^6.3.1",
     "ora": "^3.4.0",
