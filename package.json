@@ -1,11 +1,10 @@
 {
-  "name": "xyd-cli",
+  "name": "deye",
   "version": "1.0.5",
   "description": "",
   "bin": {
-    "xydcli": "./bin/xyd-cli"
+    "deye": "./bin/deye"
   },
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

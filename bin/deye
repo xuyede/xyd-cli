@@ -1,0 +1,41 @@
+#! /usr/bin/env node
+
+const program = require('commander')
+const shell = require('shelljs');
+const chalk = require('chalk');
+const printJs = require('@darkobits/lolcatjs')['default']
+const config = require('../config');
+const { compose, includes } = require('../util');
+const { echoVersion } = require('../lib');
+const { createCommand } = require('../lib/cmd');
+
+compose(initBase, initCommand)();
+
+function initCommand() {
+  // 创建相关命令
+  createCommand(program);
+
+  // 兼容输入没有配置的命令
+  program
+    .arguments('<cmd> [option]')
+    .action( cmd => {
+      if (!includes(config.cliCmd)(i => i.cmd == cmd)) {
+        shell.exec(`${config.cliName} --help`);
+        console.log(`
+
+          | ${chalk.red('没有找到相关命令')} ${chalk.yellow(cmd)} |
+
+        `);
+        process.exit(1);
+      }
+    })
+}
+
+function initBase() {
+  // 配置基本数据
+  program
+    .usage(config.cliUsage)
+    .description(config.cliDesc)
+    .version(compose(printJs.fromString, echoVersion)(config.version))
+    .parse(process.argv);
+}
