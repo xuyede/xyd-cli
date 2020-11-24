@@ -25,4 +25,4 @@
 
 使用方式
 
-> `xydcli init app-name`
+> `deye c app-name`
