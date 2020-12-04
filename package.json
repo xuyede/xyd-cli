@@ -1,6 +1,6 @@
 {
   "name": "deye",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "bin": {
     "deye": "./bin/deye"
@@ -12,15 +12,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@darkobits/lolcatjs": "^3.1.2",
-    "chalk": "^2.4.2",
-    "clear": "^0.1.0",
-    "commander": "^2.20.0",
-    "common-bin": "^2.8.1",
-    "download-git-repo": "^2.0.0",
-    "inquirer": "^6.3.1",
-    "ora": "^3.4.0",
-    "shelljs": "^0.8.3",
-    "user-home": "^2.0.0"
+    "@darkobits/lolcatjs": "3.1.2",
+    "chalk": "2.4.2",
+    "clear": "0.1.0",
+    "commander": "2.20.0",
+    "download-git-repo": "2.0.0",
+    "inquirer": "6.3.1",
+    "ora": "3.4.0",
+    "shelljs": "0.8.3"
   }
 }
